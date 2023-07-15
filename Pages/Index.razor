@@ -1,5 +1,7 @@
 ﻿@page "/"
+@using _51stBlazor.Discord
 @namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
 
 <_NavBar />
 
@@ -73,3 +75,11 @@
 </div>
 
 <_Footer />
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await DiscordService.FetchMembers(968137652245241876);
+    }
+}

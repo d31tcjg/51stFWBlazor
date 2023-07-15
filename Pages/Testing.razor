@@ -8,47 +8,69 @@
 <_NavBar />
 
 <div class="row">
-    @foreach(var guild in DiscordService.GetGuilds())
+    @foreach (var guild in DiscordService.GetGuilds())
     {
-        <p>@guild.Value.Name</p> <!-- Note the change here -->
+        <p>@guild.Value.Name</p>
+        <!-- Note the change here -->
     }
-    
+
     <p>Is Ready: @DiscordService.IsReady</p>
 
 
     <p>Bot Username: @DiscordService.GetBotUsername()</p>
-    
-    <h3>All Members:</h3>
-    <ul>
-        @if (members != null)
-        {
-            foreach (var member in members)
+    <div class="col-6">
+        <h3>All Members:</h3>
+        <ul>
+            @if (members != null)
             {
-                <li>@member.DisplayName</li>
+                foreach (var member in members)
+                {
+                    <li>@member.DisplayName</li>
 
+                }
             }
-        }
-        else
-        {
-            <li>Loading...</li>
-        }
-    </ul>
-    
-    <h3>Members with 389th FS role:</h3>
-    <ul>
-        @if (membersWithRole != null)
-        {
-            foreach (var member in membersWithRole)
+            else
             {
-                <li>@member.DisplayName</li>
-                <li><img src="@member.AvatarUrl" width="100px"/></li>
+                <li>Loading...</li>
             }
-        }
-        else
-        {
-            <li>Loading...</li>
-        }
-    </ul>
+        </ul>
+    </div>
+    <div class="col-6">
+        <h3>Members with 389th FS role:</h3>
+        <ul>
+            @if (membersWithRole != null)
+            {
+                foreach (var member in membersWithRole)
+                {
+                    <li>@member.DisplayName</li>
+                    <li><img src="@member.AvatarUrl" width="100px"/></li>
+                }
+            }
+            else
+            {
+                <li>Loading...</li>
+            }
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Pilot Card Generation</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @if (pilots != null)
+            {
+                foreach (var pilot in pilots)
+                {
+                    <_PilotCard Name="@pilot.Name" Aircraft="@pilot.Aircraft" AvatarUrl="@pilot.AvatarUrl"/>
+                }
+            }
+            else
+            {
+                <li>Loading...</li>
+            }
+
+
+        </div>
+    </div>
 
 </div>
 
@@ -57,6 +79,7 @@
 @code {
     private IEnumerable<DiscordMember> members;
     private IEnumerable<DiscordMember> membersWithRole;
+    private List<Pilot> pilots = new List<Pilot>();
 
 
     protected override async Task OnInitializedAsync()
@@ -65,5 +88,17 @@
 
         string roleName = "389th FS";
         membersWithRole = members.Where(m => m.Roles.Any(r => r.Name == roleName));
+        GeneratePilots(membersWithRole);
+    }
+
+    protected List<Pilot> GeneratePilots(IEnumerable<DiscordMember> members)
+    {
+        foreach (var member in members)
+        {
+            var p = new Pilot { Name = member.DisplayName, Aircraft = "N/A", AvatarUrl = member.AvatarUrl };
+            pilots.Add(p);
+        }
+
+        return pilots;
     }
 }

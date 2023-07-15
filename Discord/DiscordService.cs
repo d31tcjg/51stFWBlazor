@@ -30,4 +30,11 @@ public class DiscordService
         return await _bot.GetGuildMembers(guildId);
     }
 
+    public IEnumerable<DiscordMember> Members { get; private set; }
+
+    public async Task FetchMembers(ulong guildId)
+    {
+        Members = await _bot.GetGuildMembers(guildId);
+    }
+
 }

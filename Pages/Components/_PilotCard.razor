@@ -8,6 +8,11 @@
     [Parameter]
     public string Aircraft { get; set; }
 
+    [Parameter]
+    public string AvatarUrl { get; set; }
+
+
+    //Rework this to pass the whole ass pilot object.....
 }
 
 
@@ -15,9 +20,22 @@
     <div class="card mb-3" style="max-width: 540px">
         <div class="row g-0">
             <div class="col-md-4 text-center text-md-start">
-                <img src="/img/pilot.png"
+                
+                @{
+
+                    var url = string.Empty;
+                    if (AvatarUrl is not null)
+                    {
+                        url = AvatarUrl;
+                    }
+                    else
+                    {
+                        url = "/img/pilot.png";
+                    }
+                }
+                <img src="@url"
                      class="img-fluid rounded-start mx-auto d-block"
-                     alt="..." />
+                     alt="..."/>
             </div>
             <div class="col-md-8">
                 <div class="card-body text-center text-md-start">

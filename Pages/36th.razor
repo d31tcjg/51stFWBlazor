@@ -1,6 +1,9 @@
 ﻿@page "/36thFS"
 @using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
+@using DSharpPlus.Entities
+@using _51stBlazor.Discord
 @namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
 
 <_NavBar />
 
@@ -65,7 +68,7 @@
         <div class="row row-cols-1 row-cols-md-2 g-4">
             @foreach(var pilot in pilots)
             {
-                <_PilotCard Name="@pilot.Name" Aircraft="@pilot.Aircraft" />
+                <_PilotCard Name="@pilot.Name" Aircraft="@pilot.Aircraft" AvatarUrl="@pilot.AvatarUrl" />
             }
             
         </div>
@@ -75,14 +78,35 @@
 
 @code {
 
-    List<Pilot> pilots = new()
+    private List<Pilot> pilots = new List<Pilot>();
+    private IEnumerable<DiscordMember> fiendPilots;
+
+    protected override async Task OnInitializedAsync()
     {
-        new Pilot{ Name = "Lt Col Jack \"NRG\" King – CO", Aircraft = "88-440" },
-        new Pilot{ Name = "Capt Stefen \"Carbon\" Dirmitt – DCO", Aircraft = "90-715" },
-        new Pilot{ Name = "1st Lt “Bogey Dope”", Aircraft = "89-127" },
-        new Pilot{ Name = "2nd Lt Peter \"Pivot\" Quill", Aircraft = "88-544" },
-        new Pilot{ Name = "2nd Lt Israel “Coacoa” Bannerman", Aircraft = "90-771" },
-        new Pilot{ Name = "2nd Lt \"AggiePilot\"", Aircraft = "88-432" },
-    };
+        string roleName = "36th FS";
+        fiendPilots = DiscordService.Members.Where(m => m.Roles.Any(r => r.Name == roleName));
+        GeneratePilots(fiendPilots);
+    }
+
+    protected List<Pilot> GeneratePilots(IEnumerable<DiscordMember> members)
+    {
+        foreach (var member in members)
+        {
+            var p = new Pilot { Name = member.DisplayName, Aircraft = "N/A", AvatarUrl = member.AvatarUrl };
+            pilots.Add(p);
+        }
+
+        return pilots;
+    }
+
+    //List<Pilot> pilots = new()
+    //{
+    //    new Pilot{ Name = "Lt Col Jack \"NRG\" King – CO", Aircraft = "88-440" },
+    //    new Pilot{ Name = "Capt Stefen \"Carbon\" Dirmitt – DCO", Aircraft = "90-715" },
+    //    new Pilot{ Name = "1st Lt “Bogey Dope”", Aircraft = "89-127" },
+    //    new Pilot{ Name = "2nd Lt Peter \"Pivot\" Quill", Aircraft = "88-544" },
+    //    new Pilot{ Name = "2nd Lt Israel “Coacoa” Bannerman", Aircraft = "90-771" },
+    //    new Pilot{ Name = "2nd Lt \"AggiePilot\"", Aircraft = "88-432" },
+    //};
 
 }
