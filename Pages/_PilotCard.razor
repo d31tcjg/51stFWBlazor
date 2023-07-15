@@ -1,6 +1,31 @@
-﻿<h3>Component1</h3>
+﻿<div class="col">
+    <div class="card mb-3" style="max-width: 540px">
+        <div class="row g-0">
+            <div class="col-md-4 text-center text-md-start">
+                <img src="/img/pilot.png"
+                     class="img-fluid rounded-start mx-auto d-block"
+                     alt="..." />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body text-center text-md-start">
+                    <h5 class="card-title">@Name</h5>
+                    <p class="card-text">@Aircraft</p>
+                    <p class="card-text">
+                        <small class="text-muted">Last updated @DateTime.Now.Month/@DateTime.Now.Year</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string Aircraft { get; set; }
 
 }
 
