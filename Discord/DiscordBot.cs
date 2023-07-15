@@ -66,6 +66,25 @@
             var members = await guild.GetAllMembersAsync();
             return members;
         }
+
+        public async Task<IEnumerable<DiscordMessage>> ReadChannelContentsAsync(ulong channelId)
+        {
+            // Get the channel from the guild
+            var channel = await _client.GetChannelAsync(channelId) as DiscordChannel;
+
+            // Ensure we got a text channel
+            if (channel == null || channel.Type != ChannelType.Text)
+            {
+                Console.WriteLine("Invalid channel type!");
+                return null;
+            }
+
+            // Get the messages from the channel
+            var messages = await channel.GetMessagesAsync();
+
+            return messages;
+        }
+
     }
 
 

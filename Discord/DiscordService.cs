@@ -37,4 +37,9 @@ public class DiscordService
         Members = await _bot.GetGuildMembers(guildId);
     }
 
+    public async Task<IEnumerable<DiscordMessage>> ReadChannelContentsAsync(ulong channelId)
+    {
+        return await _bot.ReadChannelContentsAsync(channelId);
+    }
+
 }
