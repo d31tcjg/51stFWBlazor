@@ -1,0 +1,69 @@
+﻿@page "/Testing"
+@using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
+@using _51stBlazor.Discord
+@using DSharpPlus.Entities
+@namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
+
+<_NavBar />
+
+<div class="row">
+    @foreach(var guild in DiscordService.GetGuilds())
+    {
+        <p>@guild.Value.Name</p> <!-- Note the change here -->
+    }
+    
+    <p>Is Ready: @DiscordService.IsReady</p>
+
+
+    <p>Bot Username: @DiscordService.GetBotUsername()</p>
+    
+    <h3>All Members:</h3>
+    <ul>
+        @if (members != null)
+        {
+            foreach (var member in members)
+            {
+                <li>@member.DisplayName</li>
+
+            }
+        }
+        else
+        {
+            <li>Loading...</li>
+        }
+    </ul>
+    
+    <h3>Members with 389th FS role:</h3>
+    <ul>
+        @if (membersWithRole != null)
+        {
+            foreach (var member in membersWithRole)
+            {
+                <li>@member.DisplayName</li>
+                <li><img src="@member.AvatarUrl" width="100px"/></li>
+            }
+        }
+        else
+        {
+            <li>Loading...</li>
+        }
+    </ul>
+
+</div>
+
+<_Footer/>
+
+@code {
+    private IEnumerable<DiscordMember> members;
+    private IEnumerable<DiscordMember> membersWithRole;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        members = await DiscordService.GetGuildMembers(968137652245241876);
+
+        string roleName = "389th FS";
+        membersWithRole = members.Where(m => m.Roles.Any(r => r.Name == roleName));
+    }
+}
