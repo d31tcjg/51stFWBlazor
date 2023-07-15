@@ -1,4 +1,15 @@
-﻿<div class="col">
+﻿@code {
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string Aircraft { get; set; }
+
+}
+
+
+<div class="col">
     <div class="card mb-3" style="max-width: 540px">
         <div class="row g-0">
             <div class="col-md-4 text-center text-md-start">
@@ -19,13 +30,5 @@
     </div>
 </div>
 
-@code {
 
-    [Parameter]
-    public string Name { get; set; }
-
-    [Parameter]
-    public string Aircraft { get; set; }
-
-}
 
