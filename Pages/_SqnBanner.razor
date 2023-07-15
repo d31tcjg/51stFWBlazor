@@ -1,0 +1,31 @@
+﻿@namespace _51stBlazor.Pages
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 position-relative"
+             style="
+            height: 40vh;
+            background-size: cover;
+            background-position: center center;
+            background-image: url('/img/@ImageURL');
+          ">
+            <div class="carousel-caption d-none d-md-block position-absolute bottom-0 start-50 translate-middle-x" ">
+                <h2 class="text-bg-dark">@Caption</h2>
+            </div>
+            <div class="carousel-caption d-sm-block d-md-none position-absolute bottom-0 start-50 translate-middle-x" ">
+                <h5 class="text-bg-dark">@Caption</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    //389th The Thunderbolts
+    [Parameter]
+    public string ImageURL { get; set; }
+    
+    [Parameter]
+    public string Caption { get; set; }
+
+}
+
