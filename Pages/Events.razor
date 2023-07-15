@@ -1,0 +1,32 @@
+﻿@page "/Events"
+@using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
+@namespace _51stBlazor.Pages
+
+<_NavBar />
+
+<div class="row">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Events</h2>
+                <div class="responsive-iframe">
+                    <iframe
+                        src="https://calendar.google.com/calendar/embed?src=661f5eb3c4c1d7a22a7ab1a1342418dfebe6e86a9b7028f61bbf94b2d3b5934f%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+                        style="border: 0"
+                        width="800"
+                        height="600"
+                        frameborder="0"
+                        scrolling="no"
+                    >
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<_Footer/>
+
+@code {
+
+}
