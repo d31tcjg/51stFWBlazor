@@ -2,8 +2,11 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
 @using DSharpPlus.Entities
 @using _51stBlazor.Discord
+@using Microsoft.Extensions.Options
 @namespace _51stBlazor.Pages
 @inject DiscordService DiscordService
+@inject DiscordRosterService RosterService
+@inject IOptions<DiscordSettings> Settings
 
 <_NavBar />
 
@@ -90,81 +93,9 @@
         
         fiendPilots = DiscordService.Members.Where(m => m.Roles.Any(r => r.Name == roleName));
 
-        await LoadChannelContents();
-        
-        roster = CreateRoster(messages);
+        roster = await RosterService.CreateRosterAsync(Settings.Value._36thRoster);
 
-        GeneratePilots(fiendPilots, roster);
+        pilots = RosterService.GeneratePilots(fiendPilots, roster);
+
     }
-
-    private Dictionary<string, string> CreateRoster(IEnumerable<DiscordMessage> messages)
-    {
-        string content = messages.Last().Content;
-
-    // Split the content into lines
-        var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-    // Initialize the dictionary
-        var roster = new Dictionary<string, string>();
-
-        foreach (var line in lines)
-        {
-    // Ignore lines that don't contain '|'
-            if (!line.Contains('|'))
-            {
-                continue;
-            }
-
-            var parts = line.Split('|');
-
-            var key = parts[0].Trim();
-            var value = parts.Length > 1 ? parts[1].Trim() : string.Empty;
-
-    // Add the key-value pair to the dictionary
-            roster[key] = value;
-        }
-
-        return roster;
-    }
-
-    private async Task LoadChannelContents()
-    {
-       messages = await DiscordService.ReadChannelContentsAsync(968158927860678767);
-    }
-
-    protected List<Pilot> GeneratePilots(IEnumerable<DiscordMember> members, Dictionary<string,string> roster )
-    {
-        foreach (var member in members)
-        {
-    // Split the member's display name into parts
-            var displayNameParts = member.DisplayName.Split(' ');
-            var lastPartOfDisplayName = displayNameParts[displayNameParts.Length - 1].ToLower();
-
-    // Find the key (aircraft ID) where the member's name is contained in the roster value
-            var aircraftKey = roster.FirstOrDefault(pair => pair.Value.ToLower().Contains(lastPartOfDisplayName)).Key;
-
-
-    // If there's no matching aircraft ID, we can default to "N/A" as in your original code
-            if (string.IsNullOrEmpty(aircraftKey))
-            {
-                aircraftKey = "N/A";
-            }
-
-            var p = new Pilot { Name = member.DisplayName, Aircraft = aircraftKey, AvatarUrl = member.AvatarUrl };
-            pilots.Add(p);
-        }
-
-        return pilots;
-    }
-
-    //List<Pilot> pilots = new()
-    //{
-    //    new Pilot{ Name = "Lt Col Jack \"NRG\" King – CO", Aircraft = "88-440" },
-    //    new Pilot{ Name = "Capt Stefen \"Carbon\" Dirmitt – DCO", Aircraft = "90-715" },
-    //    new Pilot{ Name = "1st Lt “Bogey Dope”", Aircraft = "89-127" },
-    //    new Pilot{ Name = "2nd Lt Peter \"Pivot\" Quill", Aircraft = "88-544" },
-    //    new Pilot{ Name = "2nd Lt Israel “Coacoa” Bannerman", Aircraft = "90-771" },
-    //    new Pilot{ Name = "2nd Lt \"AggiePilot\"", Aircraft = "88-432" },
-    //};
-
 }

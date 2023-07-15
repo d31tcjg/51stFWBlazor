@@ -2,8 +2,14 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
 @using DSharpPlus.Entities
 @using _51stBlazor.Discord
+@using Microsoft.Extensions.Options
 @namespace _51stBlazor.Pages
 @inject DiscordService DiscordService
+@inject DiscordRosterService RosterService
+
+@inject IOptions<DiscordSettings> Settings 
+@*This can also be done with @inject IConfiguration Configuration*@
+
 
 <_NavBar />
 
@@ -85,32 +91,24 @@
 
     private List<Pilot> pilots = new List<Pilot>();
     private IEnumerable<DiscordMember> thunderboltPilots;
+    private Dictionary<string, string> roster;
+
 
     protected override async Task OnInitializedAsync()
     {
         string roleName = "389th FS";
+
         thunderboltPilots = DiscordService.Members.Where(m => m.Roles.Any(r => r.Name == roleName));
-        GeneratePilots(thunderboltPilots);
+
+        roster = await RosterService.CreateRosterAsync(Settings.Value._389thRoster);
+
+        //channel ID can also be accessed like this:
+        //var myValue = Configuration.GetSection("MySection").GetValue<string>("MyKey");
+
+        pilots = RosterService.GeneratePilots(thunderboltPilots, roster);
+
     }
 
-    protected List<Pilot> GeneratePilots(IEnumerable<DiscordMember> members)
-    {
-        foreach (var member in members)
-        {
-            var p = new Pilot { Name = member.DisplayName, Aircraft = "N/A", AvatarUrl = member.AvatarUrl };
-            pilots.Add(p);
-        }
-
-        return pilots;
-    }
-
-    //List<Pilot> pilots = new()
-    //{
-    //    new Pilot{ Name = "Maj Tony “Reaper” Montana - Sq CC", Aircraft = "90-227 (ALPHA OMEGA)" },
-    //    new Pilot{ Name = "Maj Cesar \"Cypher\" Garcia - DO", Aircraft = "87-204 (GUARDIAN)" },
-    //    new Pilot{ Name = "Maj Matrix - ADO", Aircraft = "87-202 (DOUBLE DEUCE)" },
-    //    new Pilot{ Name = "1st Lt James “Madmurf” Murphy", Aircraft = "90-227 88-1707 (OLE NUMBER 07)" },
-    //};
 }
 
 
