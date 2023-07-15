@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>_51stBlazor</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <Content Remove="wwwroot\img\1stLt.png" />
+    <Content Remove="wwwroot\img\25thFS.jpg" />
+    <Content Remove="wwwroot\img\2ndLt.png" />
+    <Content Remove="wwwroot\img\36thFS.jpeg" />
+    <Content Remove="wwwroot\img\389_TitleImg.jpg" />
+    <Content Remove="wwwroot\img\389t.png" />
+    <Content Remove="wwwroot\img\389thFS.JPG" />
+    <Content Remove="wwwroot\img\51st.png" />
+    <Content Remove="wwwroot\img\c1.png" />
+    <Content Remove="wwwroot\img\c2.png" />
+    <Content Remove="wwwroot\img\c3.png" />
+    <Content Remove="wwwroot\img\capt.png" />
+    <Content Remove="wwwroot\img\ctsLogo.jpg" />
+    <Content Remove="wwwroot\img\discord.png" />
+    <Content Remove="wwwroot\img\LtCol.png" />
+    <Content Remove="wwwroot\img\pilot.png" />
+    <Content Remove="wwwroot\img\WeWantYou.jpg" />
+    <Content Remove="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\img\1stLt.png" />
+    <None Include="wwwroot\img\25thFS.jpg" />
+    <None Include="wwwroot\img\2ndLt.png" />
+    <None Include="wwwroot\img\36thFS.jpeg" />
+    <None Include="wwwroot\img\389_TitleImg.jpg" />
+    <None Include="wwwroot\img\389t.png" />
+    <None Include="wwwroot\img\389thFS.JPG" />
+    <None Include="wwwroot\img\51st.png" />
+    <None Include="wwwroot\img\c1.png" />
+    <None Include="wwwroot\img\c2.png" />
+    <None Include="wwwroot\img\c3.png" />
+    <None Include="wwwroot\img\capt.png" />
+    <None Include="wwwroot\img\ctsLogo.jpg" />
+    <None Include="wwwroot\img\discord.png" />
+    <None Include="wwwroot\img\LtCol.png" />
+    <None Include="wwwroot\img\pilot.png" />
+    <None Include="wwwroot\img\WeWantYou.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.4.2" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.2" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.2" />
+    <PackageReference Include="DSharpPlus.Rest" Version="4.4.2" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.4.2" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.4.2" />
+  </ItemGroup>
+</Project>

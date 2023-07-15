@@ -1,0 +1,53 @@
+﻿@page "/squadrons"
+@namespace _51stBlazor.Pages
+@using _51stBlazor.Obj_Models
+
+<_NavBar/>
+
+<div class="row my-2">
+    <div class="mx-4">
+        <h2>Our Squadrons</h2>
+    </div>
+</div>
+
+<div class="d-flex flex-column flex-md-row">
+    @foreach (var squadron in squadrons)
+    {
+        <_SqnCard
+            SqnName="@squadron.Name"
+            Description="@squadron.Description"
+            ImgUrl="@squadron.ImgUrl"
+            SqnURL="@squadron.SqnURL"/>
+    }
+
+</div>
+
+<_Footer/>
+
+@code {
+
+    List<Squadron> squadrons = new()
+    {
+        new Squadron()
+        {
+            Name = "25th Fighter Squadron",
+            Description = "Welcome to the 25th Fighter Squadron, or as we proudly call ourselves, \"The Draggins\"",
+            ImgUrl = "25thFS.jpg"
+        },
+        new Squadron()
+        {
+            Name = "36th Fighter Squadron",
+            Description = "Welcome to the legendary 36th Fighter Squadron, known affectionately as \"The Fiends.\"",
+            ImgUrl = "36thFS.jpeg",
+            SqnURL = "/36thFS"
+        },
+        new Squadron()
+        {
+            Name = "389th Fighter Squadron",
+            Description = "Welcome to the 389th Fighter Squadron, the \"Thunderbolts,\" an integral part of the 51st Fighter Wing",
+            ImgUrl = "389thFS.JPG",
+            SqnURL = "/389thFS"
+        }
+    };
+
+}

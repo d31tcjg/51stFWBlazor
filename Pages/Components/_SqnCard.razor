@@ -1,0 +1,45 @@
+﻿@namespace _51stBlazor.Pages
+
+<div class="p-2 mx-auto">
+    <div class="card w-75 mx-auto">
+        <img src="/img/@ImgUrl" class="card-img-top" alt="Squadron Patch Logo" />
+        <div class="card-body">
+            <h5 class="card-title">@SqnName</h5>
+                <p class="card-text">
+                    @Description
+                </p>
+            @if(SqnURL != "#") 
+            {
+                <a href="@SqnURL" class="btn btn-primary">Learn More</a>
+            } 
+            else 
+            {
+                <button class="btn btn-primary" disabled>Coming Soon</button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+
+    [Parameter]
+    public string ImgUrl { get; set; } = "#";
+
+    [Parameter]
+    public string SqnName { get; set; } = "Insert Name";
+
+    [Parameter]
+    public string Description { get; set; } = "Insert Description";
+
+    [Parameter]
+    public string SqnURL { get; set; } = "#";
+
+    public string BtnTxt { get; set; }
+
+    //protected override void OnParametersSet()
+    //{
+    //    BtnTxt = SqnURL.Equals("#") ? "Coming Soon" : "Learn More";
+    //}
+
+}

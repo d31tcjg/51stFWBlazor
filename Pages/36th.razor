@@ -1,0 +1,101 @@
+﻿@page "/36thFS"
+@using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
+@using DSharpPlus.Entities
+@using _51stBlazor.Discord
+@using Microsoft.Extensions.Options
+@namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
+@inject DiscordRosterService RosterService
+@inject IOptions<DiscordSettings> Settings
+
+<_NavBar />
+
+<_SqnBanner ImageURL="c1.png" Caption="36th The Fiends" />
+
+<div class="container">
+    <div class="row pt-md-3">
+        <div class="col-md-7 pt-3">
+            <p>
+                Welcome to the legendary 36th Fighter Squadron, known affectionately
+                as "The Fiends." As one of the premier squadrons in the 51st Fighter
+                Wing, we emulate the real-world USAF squadron with a rich history and
+                a tradition of excellence that dates back to our establishment in
+                1917.
+            </p>
+
+            <p>
+                Our squadron is equipped with the robust and powerful F-16 Fighting
+                Falcon, colloquially known as the "Viper." With its advanced
+                technology and powerful weaponry, the Viper gives us the ability to
+                perform a diverse range of missions, from air-to-air combat to
+                precision ground attack.
+            </p>
+
+            <p>
+                At the 36th, we emphasize precision, discipline, and teamwork. Our
+                virtual pilots are some of the most skilled aviators in the Digital
+                Combat Simulator, constantly honing their skills to remain at the
+                forefront of virtual aerial combat.
+            </p>
+
+            <p>
+                Together, we've participated in numerous virtual conflicts, showcasing
+                our tactical acumen and piloting skills in a variety of challenging
+                scenarios. However, the 36th Fighter Squadron is more than just a
+                group of flight simulator enthusiasts. We're a close-knit community
+                with a shared passion for aviation and military history.
+            </p>
+
+            <p>
+                As Fiends, we uphold the values of courage, dedication, and excellence
+                in all that we do. Whether you're an experienced virtual pilot or a
+                novice looking to earn your wings, you'll find a home with us at the
+                36th Fighter Squadron.
+            </p>
+
+            <p>
+                Join us and become part of the legend of the Fiends, continuing a
+                legacy of superiority in the virtual skies.
+            </p>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <div class="text-center align-content-center">
+                <img src="/img/36thFS.jpeg" class="img-fluid w-100" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <h2>Pilots</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach(var pilot in pilots)
+            {
+                <_PilotCard Name="@pilot.Name" Aircraft="@pilot.Aircraft" AvatarUrl="@pilot.AvatarUrl" />
+            }
+            
+        </div>
+    </div>
+
+</div>
+
+@code {
+
+    private List<Pilot> pilots = new List<Pilot>();
+    private IEnumerable<DiscordMember> fiendPilots;
+    private IEnumerable<DiscordMessage> messages;
+    private Dictionary<string, string> roster;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        string roleName = "36th FS";
+        
+        fiendPilots = DiscordService.Members.Where(m => m.Roles.Any(r => r.Name == roleName));
+
+        roster = await RosterService.CreateRosterAsync(Settings.Value._36thRoster);
+
+        pilots = RosterService.GeneratePilots(fiendPilots, roster);
+
+    }
+}

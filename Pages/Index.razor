@@ -1,0 +1,85 @@
+﻿@page "/"
+@using _51stBlazor.Discord
+@namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
+
+<_NavBar />
+
+<_Jumbotron />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 pt-3">
+            <div>
+                <p>
+                    The 51st Fighter Wing is an esteemed virtual fighter wing that
+                    aims to emulate the real-world United States Air Force's 51st FW
+                    within the immersive environment of the Digital Combat Simulator
+                    (DCS). We represent a diverse community of virtual aviation
+                    enthusiasts, dedicated to replicating the disciplined training,
+                    tactical expertise, and cooperative spirit of the USAF.
+                </p>
+
+                <p>
+                    Comprised of three distinguished squadrons—the 25th Fighter
+                    Squadron "Draggins," the 36th Fighter Squadron "Fiends," and the
+                    389th Fighter Squadron "Thunderbolts"—the 51st Fighter Wing
+                    demonstrates a broad range of capabilities. Each squadron operates
+                    a unique aircraft: the A-10IIC Warthog, F-16 Fighting Falcon, and
+                    F-15E Strike Eagle respectively. These renowned aircraft provide
+                    us with the capacity to perform a variety of simulated missions,
+                    from close air support to air superiority.
+                </p>
+
+                <p>
+                    Our mission in DCS is two-fold. First, we strive to provide a
+                    realistic representation of military aviation, showcasing the
+                    complexities of fighter aircraft operation and the strategic
+                    intricacies of air combat. Second, we aim to build a supportive
+                    community of likeminded individuals, bound together by our mutual
+                    love for aviation and military history.
+                </p>
+
+                <p>
+                    The values we uphold within the 51st Fighter Wing are rooted in
+                    the traditions of the USAF. We emphasize respect, for each other
+                    and for the virtual environment we inhabit. We advocate for
+                    integrity, conducting ourselves with honesty and responsibility in
+                    all our interactions. Finally, we commit to excellence, striving
+                    to be at the cutting edge of skill and knowledge within the DCS
+                    environment.
+                </p>
+
+                <p>
+                    Whether you're a seasoned virtual pilot or a newcomer to flight
+                    simulators, the 51st Fighter Wing offers a place for you. Join us,
+                    and become a part of a vibrant community dedicated to the
+                    exploration and celebration of virtual aviation.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-5 d-flex justify-content-center align-items-center">
+            <div>
+                <h2 class="text-center">Talk with us on Discord</h2>
+                <iframe class="d-block mx-auto"
+                        src="https://discord.com/widget?id=968137652245241876&theme=dark"
+                        width="100%"
+                        height="500"
+                        allowtransparency="true"
+                        frameborder="0"
+                        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<_Footer />
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await DiscordService.FetchMembers(968137652245241876);
+    }
+}

@@ -1,0 +1,114 @@
+﻿@page "/389thFS"
+@using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure
+@using DSharpPlus.Entities
+@using _51stBlazor.Discord
+@using Microsoft.Extensions.Options
+@namespace _51stBlazor.Pages
+@inject DiscordService DiscordService
+@inject DiscordRosterService RosterService
+
+@inject IOptions<DiscordSettings> Settings 
+@*This can also be done with @inject IConfiguration Configuration*@
+
+
+<_NavBar />
+
+<_SqnBanner ImageURL ="389_TitleImg.jpg" Caption="389th The Thunderbolts" />
+
+<div class="container">
+    <div class="row pt-md-3">
+        <div class="col-md-7 pt-3">
+            <p>
+                Welcome to the 389th Fighter Squadron, the "Thunderbolts," an integral
+                part of the 51st Fighter Wing. Our virtual squadron mirrors the
+                real-world USAF 389th FS, known for its heritage of valor and
+                excellence dating back to its inception in 1942 during the turbulence
+                of World War II.
+            </p>
+
+            <p>
+                The Thunderbolts take to the virtual skies in the iconic F-15E Strike
+                Eagle, affectionately referred to as the "Mudhen." Known for its
+                superior speed, maneuverability, and payload, the F-15E is a dual-role
+                fighter designed to excel in any weather condition, day or night. Its
+                versatility allows us to effectively execute a wide variety of
+                missions, from air superiority to deep interdiction.
+            </p>
+
+            <p>
+                In the Thunderbolts, we focus on precision, adaptability, and
+                teamwork. Our virtual pilots are skilled professionals in the Digital
+                Combat Simulator, continuously refining their abilities to stay on the
+                cutting edge of simulated aerial warfare.
+            </p>
+
+            <p>
+                We have participated in countless virtual engagements, demonstrating
+                our strategic prowess and piloting skills in diverse and demanding
+                scenarios. Beyond just a group of simulator enthusiasts, we've built a
+                tight-knit community that shares a deep passion for aviation, military
+                history, and camaraderie.
+            </p>
+
+            <p>
+                As Thunderbolts, we are steadfast in our commitment to valor,
+                dedication, and excellence, on the ground and in the virtual skies. We
+                welcome pilots of all experience levels, from seasoned veterans to
+                those just starting their virtual aviation journey.
+            </p>
+
+            <p>
+                Join the Thunderbolts and continue the rich tradition of the 389th
+                Fighter Squadron, dominating the virtual skies and upholding the
+                values of teamwork and precision that have defined us for decades.
+            </p>
+        </div>
+
+
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <div class="text-center align-content-center">
+                <img src="/img/389thFS.JPG" class="img-fluid w-100" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <h2>Pilots</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach(var pilot in pilots)
+            {
+                <_PilotCard Name="@pilot.Name" Aircraft="@pilot.Aircraft" AvatarUrl="@pilot.AvatarUrl" />
+            }
+            
+        </div>
+    </div>
+</div>
+
+<_Footer />
+
+@code{
+
+    private List<Pilot> pilots = new List<Pilot>();
+    private IEnumerable<DiscordMember> thunderboltPilots;
+    private Dictionary<string, string> roster;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        string roleName = "389th FS";
+
+        thunderboltPilots = DiscordService.Members.Where(m => m.Roles.Any(r => r.Name == roleName));
+
+        roster = await RosterService.CreateRosterAsync(Settings.Value._389thRoster);
+
+        //channel ID can also be accessed like this:
+        //var myValue = Configuration.GetSection("MySection").GetValue<string>("MyKey");
+
+        pilots = RosterService.GeneratePilots(thunderboltPilots, roster);
+
+    }
+
+}
+
+
